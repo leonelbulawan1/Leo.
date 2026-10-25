@@ -535,6 +535,26 @@ main{overflow-x:clip}
 .cf-send:disabled{opacity:.7;cursor:wait}
 #contactForm{position:relative}
 
+/* professional success message */
+#contactForm.sent > *:not(#cfMsg){display:none!important}
+.cf-success{display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:start;padding:30px 32px;background:var(--card);border:1px solid var(--line);border-top:4px solid #16a34a;box-shadow:0 18px 44px rgba(40,10,100,.1);outline:none;animation:okIn .55s cubic-bezier(.2,.8,.2,1)}
+.cfs-icon svg{width:56px;height:56px;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.cfs-icon circle{stroke:#16a34a;fill:#f0fdf4;stroke-dasharray:151;stroke-dashoffset:151;animation:okDraw .6s ease .1s forwards}
+.cfs-icon path{stroke:#16a34a;stroke-dasharray:40;stroke-dashoffset:40;animation:okDraw .45s ease .55s forwards}
+.cfs-body h3{font-size:22px;margin:4px 0 8px;text-transform:none;letter-spacing:0}
+.cfs-body > p{margin:0 0 18px;color:var(--muted);font-size:15px;overflow-wrap:anywhere}
+.cfs-body > p b{color:var(--ink);font-weight:600}
+.cfs-meta{display:grid;gap:0;margin:0 0 22px;border-top:1px solid var(--line)}
+.cfs-meta div{display:grid;grid-template-columns:90px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.cfs-meta dt{color:var(--muted);font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding-top:2px}
+.cfs-meta dd{margin:0;color:var(--ink);overflow-wrap:anywhere}
+@media (max-width:600px){
+  .cf-success{grid-template-columns:1fr;justify-items:center;text-align:center;padding:28px 20px;gap:12px}
+  .cfs-meta div{grid-template-columns:1fr;gap:2px;text-align:center}
+  .cfs-again{width:100%;justify-content:center}
+}
+@media (prefers-reduced-motion:reduce){.cf-success,.cfs-icon circle,.cfs-icon path{animation:none!important;stroke-dashoffset:0}}
+
 </style>
 </head>
 <body>
@@ -859,8 +879,19 @@ $('#contactForm').onsubmit=async e=>{e.preventDefault();const f=e.target,n=$('#c
   fd.append('_subject','Portfolio: '+subject);fd.append('message',t.value.trim());fd.append('_template','table');fd.append('_captcha','false');
   // no-cors: the browser delivers the form but hides FormSubmit's reply, so a resolved request counts as sent
   await fetch('https://formsubmit.co/ajax/leonelbulawan485@gmail.com',{method:'POST',mode:'no-cors',body:fd});
-  box.innerHTML=`<div class="cf-ready cf-ok"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M7 12.5l3.5 3.5L17 9"/></svg><p><b>Message sent.</b> Thanks, ${esc(n.value.trim().split(' ')[0])}. I'll reply to ${esc(m.value.trim())}.</p></div>`;
+  const first=esc(n.value.trim().split(' ')[0]),addr=esc(m.value.trim()),subj=esc(subject);
+  f.classList.add('sent');
+  box.innerHTML=`<div class="cf-success" tabindex="-1">
+    <div class="cfs-icon"><svg viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24"/><path d="M15 27l7 7 15-16"/></svg></div>
+    <div class="cfs-body">
+      <h3>Message sent successfully</h3>
+      <p>Thank you, ${first}. Your message has been delivered, and I will get back to you at <b>${addr}</b> as soon as I can.</p>
+      <dl class="cfs-meta"><div><dt>Subject</dt><dd>${subj}</dd></div><div><dt>Sent</dt><dd>${new Date().toLocaleString('en-PH',{dateStyle:'medium',timeStyle:'short'})}</dd></div></dl>
+      <button type="button" class="btn outline cfs-again">Send another message</button>
+    </div></div>`;
   f.reset();
+  const card=box.querySelector('.cf-success');card.focus({preventScroll:true});card.scrollIntoView({behavior:'smooth',block:'center'});
+  box.querySelector('.cfs-again').onclick=()=>{f.classList.remove('sent');box.innerHTML='';$('#cName').focus()};
  }catch(err){
   const mail=`mailto:leonelbulawan485@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   if(err&&err.activation){box.innerHTML=`<div class="cf-ready"><p><b>Almost there.</b> This contact form is waiting to be activated by its owner, so the message wasn't delivered yet. Please try again later, or email <b>leonelbulawan485@gmail.com</b> directly.</p></div>`;return}
