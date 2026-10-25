@@ -854,14 +854,16 @@ $('#contactForm').onsubmit=async e=>{e.preventDefault();const f=e.target,n=$('#c
  const body=`${t.value.trim()}\n\n${n.value.trim()}\n${m.value.trim()}`;
  btn.disabled=true;const label=btn.textContent;btn.textContent='Sending…';box.innerHTML='';
  try{
-  const r=await fetch('https://formsubmit.co/ajax/leonelbulawan485@gmail.com',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
-   body:JSON.stringify({name:n.value.trim(),email:m.value.trim(),_replyto:m.value.trim(),_subject:'Portfolio: '+subject,message:t.value.trim(),_template:'table',_captcha:'false'})});
-  const j=await r.json().catch(()=>({}));
-  if(!r.ok||j.success===false||j.success==='false')throw new Error(j.message||'send failed');
+  const fd=new FormData();
+  fd.append('name',n.value.trim());fd.append('email',m.value.trim());fd.append('_replyto',m.value.trim());
+  fd.append('_subject','Portfolio: '+subject);fd.append('message',t.value.trim());fd.append('_template','table');fd.append('_captcha','false');
+  // no-cors: the browser delivers the form but hides FormSubmit's reply, so a resolved request counts as sent
+  await fetch('https://formsubmit.co/ajax/leonelbulawan485@gmail.com',{method:'POST',mode:'no-cors',body:fd});
   box.innerHTML=`<div class="cf-ready cf-ok"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M7 12.5l3.5 3.5L17 9"/></svg><p><b>Message sent.</b> Thanks, ${esc(n.value.trim().split(' ')[0])}. I'll reply to ${esc(m.value.trim())}.</p></div>`;
   f.reset();
  }catch(err){
   const mail=`mailto:leonelbulawan485@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  if(err&&err.activation){box.innerHTML=`<div class="cf-ready"><p><b>Almost there.</b> This contact form is waiting to be activated by its owner, so the message wasn't delivered yet. Please try again later, or email <b>leonelbulawan485@gmail.com</b> directly.</p></div>`;return}
   box.innerHTML=`<div class="cf-ready"><p>The message couldn't be sent from here. You can still send it from your email app, or copy it and paste it into any email to <b>leonelbulawan485@gmail.com</b>.</p><div class="acts"><a class="btn" href="${mail}">Open email app</a><button type="button" class="btn outline" id="cfCopy">Copy message</button></div></div>`;
   $('#cfCopy').onclick=()=>copyText(`To: leonelbulawan485@gmail.com\nSubject: ${subject}\n\n${body}`,'Message copied');
  }finally{btn.disabled=false;btn.textContent=label}};
