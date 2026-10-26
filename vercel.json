@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    { "source": "/api/visits", "destination": "https://leonelbulawan.goatcounter.com/counter/TOTAL.json" }
+  ],
+  "headers": [
+    { "source": "/api/visits", "headers": [ { "key": "Cache-Control", "value": "public, max-age=60" } ] }
+  ]
+}

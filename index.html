@@ -1080,7 +1080,9 @@ document.querySelectorAll('.portrait .frame').forEach(f=>{if(f.parentElement.que
 
 /* public visitor counter (GoatCounter) */
 (()=>{const fv=$('#factVisits');if(!fv)return;
- fetch('https://leonelbulawan.goatcounter.com/counter/TOTAL.json').then(r=>r.ok?r.json():Promise.reject()).then(d=>{
+ (()=>{const get=u=>fetch(u,{cache:'no-store'}).then(r=>r.ok?r.json():Promise.reject());
+  // same-site address first (works even where blockers stop goatcounter.com), then GoatCounter directly
+  return location.protocol.startsWith('http')?get('/api/visits').catch(()=>get('https://leonelbulawan.goatcounter.com/counter/TOTAL.json')):get('https://leonelbulawan.goatcounter.com/counter/TOTAL.json')})().then(d=>{
    const n=parseInt(String(d.count||'0').replace(/[^0-9]/g,''),10)||0;fv.dataset.to=n;window.runFactCount&&window.runFactCount(fv)}).catch(()=>{})})();
 
 /* menu + router */
