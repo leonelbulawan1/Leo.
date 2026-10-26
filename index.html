@@ -296,7 +296,9 @@ header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;backgroun
 .cf-ready .acts{display:flex;gap:10px;flex-wrap:wrap}
 
 /* FOOTER */
-.foot-wave{display:block;width:100%;height:110px;margin-top:40px;margin-bottom:-1px}
+.foot-wave{display:block;width:100%;height:90px;margin-top:-20px;margin-bottom:-1px;position:relative}
+main > section:last-of-type{padding-bottom:40px}
+@media (max-width:600px){.foot-wave{height:60px;margin-top:-10px}main > section:last-of-type{padding-bottom:28px}}
 .foot-wave .w1{fill:#6b4aa8;opacity:.6}.foot-wave .w2{fill:var(--night)}
 footer{background:var(--night);color:#fff;padding-block:18px 26px}
 .foot{display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;align-items:center}
@@ -797,6 +799,7 @@ html.theme-anim,html.theme-anim *,html.theme-anim *::before,html.theme-anim *::a
 .lt-state{display:inline-flex;align-items:center;gap:8px;margin-top:6px!important;font-size:13px!important}
 .lt-state::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--dotc,#22c55e)}
 @media (max-width:860px){.lt-state{justify-content:center}}
+
 
 </style>
 </head>
@@ -1313,7 +1316,7 @@ const WR=(()=>{if(matchMedia('(prefers-reduced-motion: reduce)').matches||!('Int
 /* mobile drawer */
 const Drawer=(()=>{const dr=$('#drawer'),bd=$('#drawerBackdrop'),btn=$('#menuBtn');
  $('#drawerLinks').innerHTML=[...document.querySelectorAll('#menu a')].map(a=>`<a href="${a.getAttribute('href')}">${a.textContent}</a>`).join('');
- const soc=document.querySelector('.nav-soc');if(soc)$('#drawerSoc').innerHTML=soc.innerHTML;
+ const soc=document.querySelector('.nav-soc');if(soc){$('#drawerSoc').innerHTML=soc.innerHTML;$('#drawerSoc').querySelectorAll('.theme-tog,.soc-sep').forEach(x=>x.remove())}
  let last=null;
  const open=()=>{last=document.activeElement;bd.hidden=false;requestAnimationFrame(()=>{bd.classList.add('show');dr.classList.add('open')});dr.setAttribute('aria-hidden','false');btn.setAttribute('aria-expanded','true');document.body.classList.add('drawer-lock');setTimeout(()=>$('#drawerClose').focus(),50)};
  const close=()=>{if(!dr.classList.contains('open'))return;dr.classList.remove('open');bd.classList.remove('show');dr.setAttribute('aria-hidden','true');btn.setAttribute('aria-expanded','false');document.body.classList.remove('drawer-lock');setTimeout(()=>{bd.hidden=true},350);last&&last.focus&&last.focus()};
