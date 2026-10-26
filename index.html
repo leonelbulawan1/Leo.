@@ -792,6 +792,8 @@ body.drawer-lock .ai-greet,body.ai-open .ai-greet{opacity:0;pointer-events:none}
 .pj-tools{display:flex;flex-wrap:wrap;gap:6px}.pj-tools span{font-size:12.5px;border:1px solid var(--line);padding:4px 10px;border-radius:8px;color:var(--ink)}
 .pj-acts{margin-top:auto;padding-top:6px;display:flex;gap:10px;flex-wrap:wrap}
 @media (min-width:900px){.pj-grid:has(>.pj:only-child){grid-template-columns:1fr}.pj:only-child{flex-direction:row}.pj:only-child .pj-shot{flex:0 0 55%;padding:12px;display:flex;flex-direction:column;justify-content:center}.pj:only-child .pj-body{padding:30px 32px}}
+@media (max-width:899px){.pj h3,.pj-tools,.pj-acts{text-align:center;justify-content:center}}
+.pj p{text-align:justify}
 @media (max-width:600px){.pj-body{padding:18px}.pj h3{font-size:20px}}
 .ai-qnote{font-size:12px;color:var(--muted);margin-top:8px!important;padding-top:7px;border-top:1px dashed var(--line)}
 .ai-typing{display:inline-flex;gap:4px;padding:4px 2px}
@@ -1508,7 +1510,7 @@ const card=(t,d)=>`<div class="tool${d?' dup':''}"${d?' aria-hidden="true"':''}>
 {const ex='<svg viewBox="0 0 24 24" aria-hidden="true" class="arr"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5"/></svg>';
  const card=(x,full)=>`<article class="pj"><div class="pj-shot"><div class="pj-bar"><i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i><a href="${x.url}" target="_blank" rel="noopener" title="Open in a new tab">${x.host}</a></div>
   <div class="pj-view"><img class="pj-poster" src="${x.shot}" alt="Homepage of ${esc(x.title)}" loading="lazy"><span class="pj-live" hidden>Live</span><button type="button" class="pj-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>Try it live here</button><iframe data-src="${x.url}" title="Live preview of ${esc(x.title)}" hidden></iframe></div></div>
-  <div class="pj-body"><div class="pj-tags"><span>${x.kind}</span><span>${x.role}</span></div><h3>${esc(x.title)}<small>${esc(x.sub)}</small></h3><p>${esc(x.about)}</p>
+  <div class="pj-body"><h3>${esc(x.title)}<small>${esc(x.sub)}</small></h3><p>${esc(x.about)}</p>
   ${full?`<div class="pj-meta"><span><b>Date:</b> ${x.date}</span><span><b>Role:</b> ${x.role}</span><span><b>Team:</b> ${x.team}</span></div><ul>${x.feats.map(f=>`<li>${esc(f)}</li>`).join('')}</ul>`:''}
   <div class="pj-tools">${x.tools.map(t=>`<span>${t}</span>`).join('')}</div>
   <div class="pj-acts"><a class="btn" href="${x.url}" target="_blank" rel="noopener">View live site${ex}</a>${full?'':'<a class="btn outline" href="#projects">Details</a>'}</div></div></article>`;
