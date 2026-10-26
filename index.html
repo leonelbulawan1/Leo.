@@ -23,6 +23,8 @@
 <meta name="twitter:title" content="Leonel Bulawan – Portfolio">
 <meta name="twitter:description" content="Portfolio of Leonel Bulawan, BS Computer Science student at Sorsogon State University – Bulan Campus: experience, certificates and contact details.">
 <meta name="twitter:image" content="https://portfolio-plum-mu-2jh51cpaxs.vercel.app/og-image.jpg">
+<script defer src="/_vercel/insights/script.js"></script>
+<script data-goatcounter="https://leonelbulawan.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <title>Leonel Bulawan Portfolio</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Portfolio of Leonel Bulawan, BS Computer Science student at Sorsogon State University – Bulan Campus.">
@@ -588,6 +590,22 @@ main{overflow-x:clip}
 
 @media (prefers-reduced-motion:reduce){.view-in,.orb,.fl{animation:none!important}.nav-ink,.tilt{transition:none}}
 
+/* glowing border around the diamond photo */
+.portrait .glow{position:absolute;inset:calc(12% - 5px);transform:rotate(45deg);overflow:hidden;pointer-events:none}
+.portrait .glow::before{content:"";position:absolute;left:50%;top:50%;width:160%;height:160%;margin:-80% 0 0 -80%;background:conic-gradient(from 0deg,transparent 0 45%,rgba(180,140,255,.25) 55%,#b48cff 68%,#fff 75%,#b48cff 82%,rgba(180,140,255,.25) 92%,transparent 100%);animation:glowSpin 6s linear infinite}
+.portrait .glow.soft{inset:calc(12% - 14px);filter:blur(16px);opacity:1;overflow:visible}
+.portrait .glow.soft::before{border-radius:0}
+.portrait .glow.soft{-webkit-mask:linear-gradient(#000,#000);clip-path:inset(-30px)}
+@keyframes glowSpin{to{transform:rotate(360deg)}}
+.portrait .frame{z-index:1}
+@media (prefers-reduced-motion:reduce){.portrait .glow::before{animation:none;background:linear-gradient(135deg,#b48cff,rgba(180,140,255,.3))}}
+
+/* visitor counter */
+.visits{display:inline-flex;align-items:center;gap:6px;margin-left:14px;padding-left:14px;border-left:1px solid rgba(255,255,255,.25)}
+.visits svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2}
+.visits b{font-weight:600;font-variant-numeric:tabular-nums}
+@media (max-width:600px){.visits{display:flex;justify-content:center;margin:8px 0 0;padding:0;border:0}.visits[hidden]{display:none}}
+
 </style>
 </head>
 <body>
@@ -786,7 +804,7 @@ main{overflow-x:clip}
         <div class="circ"><a href="https://www.facebook.com/leonelbulawanofficialfacebookaccount" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook"><svg viewBox="0 0 24 24"><path d="M14 8V6.5c0-.7.3-1 1-1h2V2h-3c-3 0-4 2-4 4.3V8H7.5v3.5H10V22h4V11.5h2.7l.5-3.5z"/></svg></a><a href="https://www.instagram.com/leonelbulawan__/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm0 2a3 3 0 00-3 3v10a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3zm5 3.5a4.5 4.5 0 110 9 4.5 4.5 0 010-9zm0 2a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM17.3 5.5a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"/></svg></a><a href="https://github.com/leonelbulawan1" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-3.2 19.5c.5.1.7-.2.7-.5v-1.8c-2.8.6-3.4-1.2-3.4-1.2-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.4 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 015 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.8V21c0 .3.2.6.7.5A10 10 0 0012 2z"/></svg></a><a href="https://www.tiktok.com/@leonelbulawan_" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok"><svg viewBox="0 0 24 24"><path d="M16.6 2h-3.3v13.4a2.9 2.9 0 11-2.1-2.8V9.2a6.3 6.3 0 105.4 6.2V8.6a8 8 0 004.4 1.4V6.7a4.6 4.6 0 01-4.4-4.7z"/></svg></a></div></div>
       <div class="qlinks"><h3>Quick links</h3><ul><li><a href="#home">Home</a></li><li><a href="#about">About</a></li><li><a href="#experience">Experience</a></li><li><a href="#achievements">Achievements</a></li><li><a href="#contact">Contact</a></li></ul></div>
     </div>
-    <div class="copy">© 2026 Leo. All rights reserved.</div>
+    <div class="copy">© 2026 Leo. All rights reserved.<span class="visits" id="visits" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><b id="visitCount">0</b> visitors</span></div>
   </div>
 </footer>
 
@@ -1021,6 +1039,18 @@ const moveInk=(()=>{const ink=document.querySelector('.nav-ink'),menu=$('#menu')
   if(!el)return;el.classList.add('tilt','tilting');const r=el.getBoundingClientRect(),px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;
   el.style.transform=`perspective(900px) rotateX(${(-py*max).toFixed(2)}deg) rotateY(${(px*max).toFixed(2)}deg) translateY(-4px)`},{passive:true});
  document.addEventListener('pointerleave',()=>document.querySelectorAll('.tilting').forEach(x=>{x.classList.remove('tilting');x.style.transform=''}))})();
+
+/* glowing border: add the light layers behind each diamond photo */
+document.querySelectorAll('.portrait .frame').forEach(f=>{if(f.parentElement.querySelector('.glow'))return;
+ f.insertAdjacentHTML('beforebegin','<span class="glow soft" aria-hidden="true"></span><span class="glow" aria-hidden="true"></span>')});
+
+/* public visitor counter (GoatCounter) */
+(()=>{const box=$('#visits'),num=$('#visitCount');if(!box)return;
+ const show=()=>fetch('https://leonelbulawan.goatcounter.com/counter/TOTAL.json').then(r=>r.ok?r.json():Promise.reject()).then(d=>{
+   const n=parseInt(String(d.count||'0').replace(/[^0-9]/g,''),10)||0;box.hidden=false;
+   const t0=performance.now(),dur=1200;const step=t=>{const p=Math.min(1,(t-t0)/dur);num.textContent=Math.round(n*(1-Math.pow(1-p,3))).toLocaleString('en-US');if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)
+  }).catch(()=>{});
+ setTimeout(show,1500)})();
 
 /* menu + router */
 $('#menuBtn').onclick=e=>{const o=$('#menu').classList.toggle('open');e.currentTarget.setAttribute('aria-expanded',o)};
