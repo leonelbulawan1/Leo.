@@ -598,11 +598,6 @@ main{overflow-x:clip}
 .portrait .frame{z-index:1}
 @media (prefers-reduced-motion:reduce){.portrait .glow::before{animation:none;background:linear-gradient(135deg,#b48cff,rgba(180,140,255,.3))}}
 
-/* visitor counter */
-.visits{display:inline-flex;align-items:center;gap:6px;margin-left:14px;padding-left:14px;border-left:1px solid rgba(255,255,255,.25)}
-.visits svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2}
-.visits b{font-weight:600;font-variant-numeric:tabular-nums}
-@media (max-width:600px){.visits{display:flex;justify-content:center;margin:8px 0 0;padding:0;border:0}.visits[hidden]{display:none}}
 
 /* mobile side drawer */
 .menu-btn{width:44px;height:44px;place-items:center;align-content:center;gap:5px;padding:0;border-radius:10px;transition:background .2s}
@@ -843,7 +838,7 @@ body.drawer-lock{overflow:hidden}
         <div class="circ"><a href="https://www.facebook.com/leonelbulawanofficialfacebookaccount" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook"><svg viewBox="0 0 24 24"><path d="M14 8V6.5c0-.7.3-1 1-1h2V2h-3c-3 0-4 2-4 4.3V8H7.5v3.5H10V22h4V11.5h2.7l.5-3.5z"/></svg></a><a href="https://www.instagram.com/leonelbulawan__/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm0 2a3 3 0 00-3 3v10a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3zm5 3.5a4.5 4.5 0 110 9 4.5 4.5 0 010-9zm0 2a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM17.3 5.5a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"/></svg></a><a href="https://github.com/leonelbulawan1" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-3.2 19.5c.5.1.7-.2.7-.5v-1.8c-2.8.6-3.4-1.2-3.4-1.2-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.4 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 015 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.8V21c0 .3.2.6.7.5A10 10 0 0012 2z"/></svg></a><a href="https://www.tiktok.com/@leonelbulawan_" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok"><svg viewBox="0 0 24 24"><path d="M16.6 2h-3.3v13.4a2.9 2.9 0 11-2.1-2.8V9.2a6.3 6.3 0 105.4 6.2V8.6a8 8 0 004.4 1.4V6.7a4.6 4.6 0 01-4.4-4.7z"/></svg></a></div></div>
       <div class="qlinks"><h3>Quick links</h3><ul><li><a href="#home">Home</a></li><li><a href="#about">About</a></li><li><a href="#experience">Experience</a></li><li><a href="#achievements">Achievements</a></li><li><a href="#contact">Contact</a></li></ul></div>
     </div>
-    <div class="copy">© 2026 Leo. All rights reserved.<span class="visits" id="visits" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><b id="visitCount">0</b> visitors</span></div>
+    <div class="copy">© 2026 Leo. All rights reserved.</div>
   </div>
 </footer>
 
@@ -909,7 +904,7 @@ document.querySelectorAll('img[data-img]').forEach(i=>i.src=IMG[i.dataset.img]);
 
 /* facts */
 const totalCerts=D.certs.length+D.experience.length;
-$('#facts').innerHTML=`<div><b>2023</b><span>Started BS Computer Science</span></div><div><b>${D.experience.length}</b><span>Work experiences</span></div><div><b>${totalCerts}</b><span>Certificates earned</span></div>`;
+$('#facts').innerHTML=`<div><b id="factVisits" data-live="1">—</b><span>Site visitors</span></div><div><b>${D.experience.length}</b><span>Work experiences</span></div><div><b>${totalCerts}</b><span>Certificates earned</span></div>`;
 
 
 /* experience cards (home) */
@@ -1063,12 +1058,12 @@ const moveInk=(()=>{const ink=document.querySelector('.nav-ink'),menu=$('#menu')
 
 /* 3. count-up numbers in the facts strip */
 (()=>{const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
- const nums=[...document.querySelectorAll('#facts b')];nums.forEach(b=>b.dataset.to=b.textContent.trim());
+ const nums=[...document.querySelectorAll('#facts b')];nums.forEach(b=>{if(!b.dataset.live)b.dataset.to=b.textContent.trim()});window.runFactCount=b=>{if(still||!('IntersectionObserver' in window)){b.textContent=(+b.dataset.to).toLocaleString('en-US');return}run(b)};
  if(still||!('IntersectionObserver' in window))return;
- const run=b=>{const to=+b.dataset.to,dur=to>100?1600:1000,t0=performance.now();
-  const step=t=>{const p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,3);b.textContent=Math.round(to*e);if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)};
- const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){run(e.target)}else{e.target.textContent='0'}}),{threshold:.6});
- nums.forEach(b=>{b.textContent='0';io.observe(b)})})();
+ const run=b=>{if(b.dataset.to===undefined)return;const to=+b.dataset.to,dur=to>100?1600:1000,t0=performance.now();
+  const step=t=>{const p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,3);b.textContent=Math.round(to*e).toLocaleString('en-US');if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)};
+ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.target.dataset.to===undefined)return;if(e.isIntersecting){run(e.target)}else{e.target.textContent='0'}}),{threshold:.6});
+ nums.forEach(b=>{if(b.dataset.to!==undefined)b.textContent='0';io.observe(b)})})();
 
 /* 6. gentle 3D tilt on certificate cards and portraits (mouse only) */
 (()=>{if(!matchMedia('(hover:hover) and (pointer:fine)').matches||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
@@ -1084,12 +1079,9 @@ document.querySelectorAll('.portrait .frame').forEach(f=>{if(f.parentElement.que
  f.insertAdjacentHTML('beforebegin','<span class="glow soft" aria-hidden="true"></span><span class="glow" aria-hidden="true"></span>')});
 
 /* public visitor counter (GoatCounter) */
-(()=>{const box=$('#visits'),num=$('#visitCount');if(!box)return;
- const show=()=>fetch('https://leonelbulawan.goatcounter.com/counter/TOTAL.json').then(r=>r.ok?r.json():Promise.reject()).then(d=>{
-   const n=parseInt(String(d.count||'0').replace(/[^0-9]/g,''),10)||0;box.hidden=false;
-   const t0=performance.now(),dur=1200;const step=t=>{const p=Math.min(1,(t-t0)/dur);num.textContent=Math.round(n*(1-Math.pow(1-p,3))).toLocaleString('en-US');if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)
-  }).catch(()=>{});
- setTimeout(show,1500)})();
+(()=>{const fv=$('#factVisits');if(!fv)return;
+ fetch('https://leonelbulawan.goatcounter.com/counter/TOTAL.json').then(r=>r.ok?r.json():Promise.reject()).then(d=>{
+   const n=parseInt(String(d.count||'0').replace(/[^0-9]/g,''),10)||0;fv.dataset.to=n;window.runFactCount&&window.runFactCount(fv)}).catch(()=>{})})();
 
 /* menu + router */
 /* mobile drawer */
