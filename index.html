@@ -963,7 +963,7 @@ html.theme-anim,html.theme-anim *,html.theme-anim *::before,html.theme-anim *::a
 .qrm-url{display:flex;align-items:center;gap:8px;margin:12px 4px 0;padding:10px 14px;border-radius:12px;background:#f4effe;line-height:1.3;font:500 13px var(--body);color:#3a2a63;min-width:0}
 .qrm-url svg{flex:none;width:16px;height:16px;fill:none;stroke:#7a35ff;stroke-width:2;stroke-linecap:round}
 .qrm-url span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.qrm-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:2px 4px 0;line-height:1.2}
+.qrm-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:2px 4px 0;line-height:1.2}
 .qrm-act{text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:6px;padding:11px 6px;border-radius:12px;border:1px solid #e4dcf5;background:#fff;color:#1a0b3d;font:600 12.5px var(--body);cursor:pointer;transition:background .2s,border-color .2s,transform .2s,color .2s}
 .qrm-act svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .qrm-act:hover{background:#f4effe;border-color:#cdb8ff;transform:translateY(-2px)}
@@ -1225,7 +1225,6 @@ header.nav.scrolled .logo-img{height:32px}
     <div class="qrm-actions">
       <button type="button" class="qrm-act primary" id="qrmShare"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>Share</button>
       <button type="button" class="qrm-act" id="qrmCopy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 01-1-1V4a1 1 0 011-1h10a1 1 0 011 1v1"/></svg>Copy link</button>
-      <a class="qrm-act" id="qrmSave" href="/Leonel-Bulawan-Portfolio-QR.png" download="Leonel-Bulawan-Portfolio-QR.png"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"/></svg>Save QR</a>
     </div>
     <div class="qrm-sharep" id="qrmSP" hidden>
       <div class="qsp-top"><button type="button" class="qsp-back" id="qspBack" aria-label="Back"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button><b>Share via</b><span></span></div>
@@ -1572,9 +1571,7 @@ const WR=(()=>{if(matchMedia('(prefers-reduced-motion: reduce)').matches||!('Int
   showSP(true)};
  $('#qspBack').onclick=()=>showSP(false);
  $('#qspGrid').addEventListener('click',async e=>{const b=e.target.closest('button.qsp-o');if(b){if(b.dataset.k==='copy')copy();else if(b.dataset.k==='msgr'){await copy();toast('Link copied. Paste it in Messenger.');window.open('https://www.messenger.com/','_blank','noopener')}else{const d={title:'Leonel Bulawan · Portfolio',text:MSG,url:SITE};let ok=false;if(navigator.share&&(!navigator.canShare||navigator.canShare(d))){try{await navigator.share(d);ok=true}catch(err){if(err&&err.name==='AbortError')ok=true}}if(!ok){await copy();toast('Link copied. Paste it in any app to share.')}}}else if(e.target.closest('a.qsp-o'))setTimeout(()=>showSP(false),400)});
- /* Save QR is a real link to the QR file on the site (served as a download), so every browser downloads it natively.
-    Only the claude.ai preview, where that file does not exist, saves through the downloads capability. */
- $('#qrmSave').addEventListener('click',e=>{if(DL||location.protocol==='file:'||!/vercel\.app$|leonelbulawan/.test(location.hostname)){e.preventDefault();saveQR()}else setTimeout(()=>toast('QR saved'),300)});
+
  const FN='Leonel-Bulawan-Portfolio-QR.png',ua=navigator.userAgent,isIOS=/iPhone|iPad|iPod/i.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1),inApp=/FBAN|FBAV|FB_IAB|Messenger|Instagram|Line\/|MicroMessenger|TikTok|musical_ly/i.test(ua);const isAndroid=/Android/i.test(ua);
  const holdView=url=>{let v=$('#qrHold');if(!v){v=document.createElement('div');v.id='qrHold';v.className='qr-hold';v.innerHTML='<div class="qh-box"><button type="button" class="qh-x" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button><img alt="Leonel Bulawan portfolio QR code"><p><b>Press and hold the image</b>, then tap <b>Save</b> or <b>Download image</b>.</p></div>';document.body.appendChild(v);v.addEventListener('click',e=>{if(e.target===v||e.target.closest('.qh-x'))v.classList.remove('on')})}v.querySelector('img').src=url;v.classList.add('on')};
  let DL=null;try{if(window.claude&&typeof claude.use==='function')claude.use('downloads').then(d=>{DL=d}).catch(()=>{})}catch(_){}
