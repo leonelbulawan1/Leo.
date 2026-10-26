@@ -651,6 +651,81 @@ body.drawer-lock{overflow:hidden}
 body.drawer-lock .to-top{opacity:0;pointer-events:none}
 @media (prefers-reduced-motion:reduce){.to-top,.to-top .tt-prog,.to-top .tt-arrow{transition:none}}
 
+/* spotlight that follows the mouse inside cards */
+.cert,.xp-card,.tool{position:relative;isolation:isolate}
+.cert::before,.xp-card::before,.tool::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;transition:opacity .35s;
+  background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(122,53,255,.16),transparent 65%)}
+.cert::after,.xp-card::after,.tool::after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;transition:opacity .35s;padding:1px;
+  background:radial-gradient(180px circle at var(--mx,50%) var(--my,50%),rgba(122,53,255,.85),transparent 70%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.cert:hover::before,.xp-card:hover::before,.tool:hover::before,.cert:hover::after,.xp-card:hover::after,.tool:hover::after{opacity:1}
+@media (hover:none),(prefers-reduced-motion:reduce){.cert::before,.xp-card::before,.tool::before,.cert::after,.xp-card::after,.tool::after{display:none}}
+
+/* headings reveal word by word */
+.wr .w{display:inline-block;opacity:0;transform:translateY(.55em);filter:blur(5px);transition:opacity .6s ease,transform .7s cubic-bezier(.2,.7,.2,1),filter .6s ease;transition-delay:calc(var(--i) * 70ms)}
+.wr.words-in .w{opacity:1;transform:none;filter:none}
+
+/* header: compact glass on scroll, hides going down and returns going up */
+header.nav{transition:transform .4s cubic-bezier(.2,.8,.2,1),background .3s,box-shadow .3s}
+.nav .wrap{transition:height .3s ease}
+header.nav.scrolled{background:rgba(26,11,61,.82);-webkit-backdrop-filter:saturate(160%) blur(12px);backdrop-filter:saturate(160%) blur(12px);box-shadow:0 8px 24px rgba(10,4,25,.25)}
+header.nav.scrolled .wrap{height:58px}
+header.nav.scrolled .logo{font-size:22px}
+header.nav.hide{transform:translateY(calc(-100% - env(safe-area-inset-top,0px)))}
+.nav .logo{transition:font-size .3s}
+
+@media (prefers-reduced-motion:reduce){header.nav,.nav .wrap{transition:none}}
+
+/* ===== visual polish ===== */
+/* facts strip with icons */
+.facts{border-top:3px solid var(--violet)}
+.facts > div{display:flex;align-items:center;gap:16px;transition:background .3s}
+.facts > div:hover{background:var(--surface)}
+.facts .fi{flex:none;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--violet),#9a66ff);box-shadow:0 8px 18px rgba(91,15,214,.25)}
+.facts .fi svg{width:24px;height:24px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.facts p{margin:0;min-width:0}
+@media (max-width:600px){.facts > div{flex-direction:column;gap:8px;text-align:center}.facts .fi{width:40px;height:40px}.facts .fi svg{width:19px;height:19px}}
+
+/* buttons: arrow nudge and soft depth */
+.btn .arr{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s}
+.btn:hover .arr{transform:translateX(4px)}
+.btn:not(.outline):not(.light){box-shadow:0 8px 20px rgba(91,15,214,.22)}
+.btn:not(.outline):not(.light):hover{box-shadow:0 12px 26px rgba(91,15,214,.32);transform:translateY(-1px)}
+.btn{transition:background .2s,color .2s,border-color .2s,box-shadow .25s,transform .2s}
+
+/* experience cards */
+.xp-card{position:relative;align-items:center;border:1px solid var(--line);border-bottom-width:3px;transition:border-color .25s,transform .3s,box-shadow .3s}
+.xp-card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(40,10,100,.14)}
+.xp-card .xc-body{flex:1}
+.xc-go{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--surface);color:var(--violet-hi);transition:background .25s,color .25s,transform .25s}
+.xc-go .arr{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.xp-card:hover .xc-go{background:var(--violet);color:#fff;transform:rotate(-45deg)}
+@media (max-width:520px){.xc-go{display:none}}
+
+/* certificate cards */
+.cert{border:1px solid var(--line);transition:box-shadow .3s,border-color .3s}
+.cert:hover{box-shadow:0 20px 44px rgba(40,10,100,.15);border-color:rgba(109,40,240,.35)}
+.cert .meta{border-top:1px solid var(--line)}
+.cert .dt{display:inline-flex;align-items:center;gap:7px}
+.cert .dt svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+
+/* section headings: small accent bar */
+.center-head h2::after{content:"";display:block;width:44px;height:3px;margin:16px auto 0;background:linear-gradient(90deg,var(--violet),#b48cff);border-radius:3px}
+
+/* softer, layered section backgrounds */
+#homeView > section:nth-of-type(3){background:radial-gradient(60% 50% at 100% 0%,rgba(154,102,255,.08),transparent 70%),radial-gradient(50% 50% at 0% 100%,rgba(91,15,214,.06),transparent 70%),var(--surface)}
+.split .portrait{filter:drop-shadow(0 30px 40px rgba(40,10,100,.12))}
+
+/* contact icons */
+.ci-row i{background:linear-gradient(135deg,var(--violet),#9a66ff);box-shadow:0 8px 18px rgba(91,15,214,.22)}
+.ci-row svg{stroke:#fff!important}
+
+/* footer: soft glow line on top edge */
+footer{position:relative}
+footer::before{content:"";position:absolute;left:10%;right:10%;top:0;height:1px;background:linear-gradient(90deg,transparent,rgba(180,140,255,.6),transparent)}
+.circ a{transition:transform .25s,background .25s}
+.circ a:hover{transform:translateY(-3px)}
+
 </style>
 </head>
 <body>
@@ -684,7 +759,7 @@ body.drawer-lock .to-top{opacity:0;pointer-events:none}
 <aside class="drawer" id="drawer" aria-label="Menu" aria-hidden="true">
   <div class="dr-head"><a class="logo" href="#home">Leo<span>.</span></a><button class="dr-close" id="drawerClose" aria-label="Close menu"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
   <nav class="dr-links" id="drawerLinks"></nav>
-  <div class="dr-foot"><p>Let's connect</p><div class="dr-soc" id="drawerSoc"></div><small>© 2026 Leo.</small></div>
+  <div class="dr-foot"><p>Let's connect</p><div class="dr-soc" id="drawerSoc"></div><small>© 2026 Leonel Bulawan</small></div>
 </aside>
 
 <!-- HOME -->
@@ -698,7 +773,7 @@ body.drawer-lock .to-top{opacity:0;pointer-events:none}
           <figcaption>Alan Turing</figcaption>
         </figure>
         <p class="lead">I am always eager to learn, work hard, and grow with every opportunity.</p>
-        <div class="acts"><a class="btn light" href="#experience">View experience</a><a class="btn outline" style="color:#fff;border-color:rgba(255,255,255,.5)" href="#contact">Contact me</a></div>
+        <div class="acts"><a class="btn light" href="#experience">View experience<svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn outline" style="color:#fff;border-color:rgba(255,255,255,.5)" href="#contact">Contact me</a></div>
       </div>
       <div class="portrait"><span class="tri t1"></span><span class="tri t2"></span><span class="tri t3"></span><span class="outline"></span><div class="frame"><img data-img="avatar" alt="Portrait of Leonel Bulawan"></div></div>
     </div>
@@ -722,7 +797,7 @@ body.drawer-lock .to-top{opacity:0;pointer-events:none}
 
   <section>
     <div class="wrap">
-      <div class="sec-head"><span class="ghost">Experience</span><h2>Work Experience</h2><div class="rule"></div><a class="btn outline" href="#experience">Full details</a></div>
+      <div class="sec-head"><span class="ghost">Experience</span><h2>Work Experience</h2><div class="rule"></div><a class="btn outline" href="#experience">Full details<svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
       <div class="xp-cards" id="xpCards"></div>
     </div>
   </section>
@@ -731,7 +806,7 @@ body.drawer-lock .to-top{opacity:0;pointer-events:none}
     <div class="wrap">
       <div class="center-head"><span class="ghost">Certificates</span><h2>Recent Achievements</h2><p>Courses, trainings and webinars completed alongside my degree.</p></div>
       <div class="certs" id="recentCerts"></div>
-      <div style="text-align:center;margin-top:40px"><a class="btn outline" href="#achievements">See all certificates</a></div>
+      <div style="text-align:center;margin-top:40px"><a class="btn outline" href="#achievements">See all certificates<svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
     </div>
   </section>
 </main>
@@ -855,7 +930,7 @@ body.drawer-lock .to-top{opacity:0;pointer-events:none}
         <div class="circ"><a href="https://www.facebook.com/leonelbulawanofficialfacebookaccount" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook"><svg viewBox="0 0 24 24"><path d="M14 8V6.5c0-.7.3-1 1-1h2V2h-3c-3 0-4 2-4 4.3V8H7.5v3.5H10V22h4V11.5h2.7l.5-3.5z"/></svg></a><a href="https://www.instagram.com/leonelbulawan__/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm0 2a3 3 0 00-3 3v10a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3zm5 3.5a4.5 4.5 0 110 9 4.5 4.5 0 010-9zm0 2a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM17.3 5.5a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"/></svg></a><a href="https://github.com/leonelbulawan1" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-3.2 19.5c.5.1.7-.2.7-.5v-1.8c-2.8.6-3.4-1.2-3.4-1.2-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.4 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 015 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.8V21c0 .3.2.6.7.5A10 10 0 0012 2z"/></svg></a><a href="https://www.tiktok.com/@leonelbulawan_" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok"><svg viewBox="0 0 24 24"><path d="M16.6 2h-3.3v13.4a2.9 2.9 0 11-2.1-2.8V9.2a6.3 6.3 0 105.4 6.2V8.6a8 8 0 004.4 1.4V6.7a4.6 4.6 0 01-4.4-4.7z"/></svg></a></div></div>
       <div class="qlinks"><h3>Quick links</h3><ul><li><a href="#home">Home</a></li><li><a href="#about">About</a></li><li><a href="#experience">Experience</a></li><li><a href="#achievements">Achievements</a></li><li><a href="#contact">Contact</a></li></ul></div>
     </div>
-    <div class="copy">© 2026 Leo. All rights reserved.</div>
+    <div class="copy">© 2026 Leonel Bulawan. All rights reserved.</div>
   </div>
 </footer>
 
@@ -922,14 +997,14 @@ document.querySelectorAll('img[data-img]').forEach(i=>i.src=IMG[i.dataset.img]);
 
 /* facts */
 const totalCerts=D.certs.length+D.experience.length;
-$('#facts').innerHTML=`<div><b id="factVisits" data-live="1">—</b><span>Site visitors</span></div><div><b>${D.experience.length}</b><span>Work experiences</span></div><div><b>${totalCerts}</b><span>Certificates earned</span></div>`;
+$('#facts').innerHTML=`<div><i class="fi"><svg viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></i><p><b id="factVisits" data-live="1">—</b><span>Site visitors</span></p></div><div><i class="fi"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2M3 13h18"/></svg></i><p><b>${D.experience.length}</b><span>Work experiences</span></p></div><div><i class="fi"><svg viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="M8.5 14L7 22l5-3 5 3-1.5-8"/></svg></i><p><b>${totalCerts}</b><span>Certificates earned</span></p></div>`;
 
 
 /* experience cards (home) */
-$('#xpCards').innerHTML=D.experience.map((x,k)=>`<a class="xp-card" href="#experience"><img src="${IMG[x.logo]}" alt=""><div><div class="when">${x.duration}</div><h3>${x.position}</h3><p>${x.short} · ${x.type}</p></div></a>`).join('');
+$('#xpCards').innerHTML=D.experience.map((x,k)=>`<a class="xp-card" href="#experience"><img src="${IMG[x.logo]}" alt=""><div class="xc-body"><div class="when">${x.duration}</div><h3>${x.position}</h3><p>${x.short} · ${x.type}</p></div><span class="xc-go" aria-hidden="true"><svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>`).join('');
 
 /* certificates */
-const certCard=(c,i)=>`<button class="cert" data-c="${i}"><div class="th"><img src="${IMG.thumbs[c.img]}" alt="" loading="lazy"><span class="cat">${c.cat}</span></div><div class="meta"><h3>${esc(c.title)}</h3><span class="iss">${esc(c.issuer)}</span><span class="dt">${c.date}</span></div></button>`;
+const certCard=(c,i)=>`<button class="cert" data-c="${i}"><div class="th"><img src="${IMG.thumbs[c.img]}" alt="" loading="lazy"><span class="cat">${c.cat}</span></div><div class="meta"><h3>${esc(c.title)}</h3><span class="iss">${esc(c.issuer)}</span><span class="dt"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>${c.date}</span></div></button>`;
 $('#recentCerts').innerHTML=D.certs.slice(0,3).map((c,i)=>certCard(c,i)).join('');
 let filter='All';
 function renderCerts(){const cats=['All','Course','Training','Webinar'];
@@ -1110,12 +1185,38 @@ document.querySelectorAll('.portrait .frame').forEach(f=>{if(f.parentElement.que
   else if(b.classList.contains('show')){b.classList.remove('show');hideT=setTimeout(()=>{b.hidden=true},300)}
   prog.style.strokeDashoffset=132*(1-(max>0?Math.min(1,y/max):0));
   // lift the button so it never covers the copyright line at the very bottom
-  const cp=document.querySelector('footer .copy');if(cp){const over=innerHeight-cp.getBoundingClientRect().top;b.style.setProperty('--lift',over>0?Math.min(over,80)+'px':'0px')}
+  const cp=document.querySelector('footer .copy');if(cp){const over=innerHeight-cp.getBoundingClientRect().top;b.style.setProperty('--lift',over>0?Math.min(over,240)+'px':'0px')}
   b.style.visibility=$('#lb')&&!$('#lb').hidden?'hidden':''};
  addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(upd)}},{passive:true});
  addEventListener('hashchange',()=>setTimeout(upd,60));
  b.onclick=()=>{scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});const t=document.querySelector('main:not([hidden]) h1,main:not([hidden]) h2');t&&t.setAttribute('tabindex','-1')};
  upd()})();
+
+/* spotlight: feed the mouse position to the card under it */
+(()=>{if(!matchMedia('(hover:hover) and (pointer:fine)').matches)return;
+ document.addEventListener('pointermove',e=>{const c=e.target.closest('.cert,.xp-card,.tool');if(!c)return;const r=c.getBoundingClientRect();
+  c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px')},{passive:true})})();
+
+/* headings: split into words that rise in one after another when the heading scrolls into view */
+const WR=(()=>{if(matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window))return {scan(){}};
+ const io=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('words-in',e.isIntersecting)),{threshold:.4});
+ const sel='.sec-head h2,.center-head h2,.split .txt h2,.contact-grid h2';
+ function scan(){document.querySelectorAll(sel).forEach(h=>{if(h.classList.contains('wr'))return;
+   const words=h.textContent.trim().split(/\s+/);h.setAttribute('aria-label',h.textContent.trim());
+   h.innerHTML=words.map((w,i)=>`<span class="w" aria-hidden="true" style="--i:${i}">${w.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}</span>`).join(' ');
+   h.classList.add('wr');io.observe(h)})}
+ scan();return {scan}})();
+
+/* header: shrink after scrolling a little; hide while scrolling down, show again on the way up */
+(()=>{const hd=document.querySelector('header.nav');let lastY=scrollY,tick=false;
+ const upd=()=>{tick=false;const y=Math.max(0,scrollY),dy=y-lastY;
+  hd.classList.toggle('scrolled',y>40);
+  if(document.body.classList.contains('drawer-lock')||y<140)hd.classList.remove('hide');
+  else if(dy>6)hd.classList.add('hide');else if(dy<-6)hd.classList.remove('hide');
+  if(Math.abs(dy)>6)lastY=y};
+ addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(upd)}},{passive:true});
+ addEventListener('hashchange',()=>{hd.classList.remove('hide');lastY=0});
+ hd.addEventListener('focusin',()=>hd.classList.remove('hide'));upd()})();
 
 /* menu + router */
 /* mobile drawer */
