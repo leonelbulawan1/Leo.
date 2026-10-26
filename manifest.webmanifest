@@ -1,0 +1,17 @@
+{
+  "name": "Leonel Bulawan – Portfolio",
+  "short_name": "Leonel B.",
+  "description": "Portfolio of Leonel Bulawan, BS Computer Science student at Sorsogon State University – Bulan Campus.",
+  "id": "/",
+  "start_url": "/?source=app",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#120626",
+  "theme_color": "#1a0b3d",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
