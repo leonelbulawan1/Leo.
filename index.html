@@ -763,6 +763,7 @@ body.drawer-lock .ai-greet,body.ai-open .ai-greet{opacity:0;pointer-events:none}
 .ai-mav{width:28px;height:28px;flex:none;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#2a0d6b,#1a0b3d);border:1px solid rgba(180,140,255,.35);box-shadow:0 2px 6px rgba(26,11,61,.18)}
 .ai-mav img{width:20px;height:auto}.ai-time.me{align-self:flex-end}
 .ai-day{align-self:center;font-size:11.5px;font-weight:500;color:var(--muted);background:var(--card);border:1px solid var(--line);padding:3px 11px;border-radius:999px;margin:2px 0}
+.ai-note{text-align:left;font-size:12px;color:var(--muted);margin-top:8px!important;padding-top:7px;border-top:1px dashed var(--line)}
 .ai-typing{display:inline-flex;gap:4px;padding:4px 2px}
 .ai-typing i{width:7px;height:7px;border-radius:50%;background:#9b7ae0;animation:aiDot 1s infinite ease-in-out}
 .ai-typing i:nth-child(2){animation-delay:.15s}.ai-typing i:nth-child(3){animation-delay:.3s}
@@ -1779,6 +1780,17 @@ const WR=(()=>{if(matchMedia('(prefers-reduced-motion: reduce)').matches||!('Int
    `<button type="button" class="ai-copy" aria-label="Copy answer" title="Copy">${svg('<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 011-1h9"/>')}</button>`;
   bar.querySelector('.ai-copy').onclick=async e=>{const b=e.currentTarget;try{await navigator.clipboard.writeText(text)}catch(_){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(__){}ta.remove()}b.classList.add('done');b.title='Copied';setTimeout(()=>{b.classList.remove('done');b.title='Copy'},1500)};
   el.appendChild(bar);return tp};
+ /* quick answers from the page itself, used when the AI is busy or offline */
+ const localAnswer=q=>{const tp=topicsOf(q);const L=[];
+  if(!tp.length&&/^\s*(hi|hello|hey|kumusta|musta|good (morning|afternoon|evening)|magandang)/i.test(q))return "Hello! I can tell you about Leonel's skills, experience, certificates, studies and how to contact him. What would you like to know?";
+  tp.slice(0,2).forEach(k=>{
+   if(k==='skills')L.push('**Leonel\'s skills and tools:**',...D.skills.map(g=>'- '+g.t+': '+g.items.join(', ')));
+   if(k==='experience')L.push('**Work experience:**',...D.experience.map(x=>'- '+x.position+' ('+x.type+') – '+x.short+', '+x.duration));
+   if(k==='certs'){const c=D.certs;L.push('**Leonel has '+c.length+' certificates.** The most recent:',...c.slice(0,4).map(x=>'- '+x.title+' – '+x.issuer+', '+x.date),'See all of them on the Achievements page.')}
+   if(k==='study')L.push('Leonel is a **BS Computer Science** student at **Sorsogon State University – Bulan Campus** in Bulan, Sorsogon. He started the program in 2023.');
+   if(k==='about')L.push('Leonel Bulawan is a 22-year-old BS Computer Science student at Sorsogon State University – Bulan Campus. He is eager to learn, works hard, and is open to internships, projects and collaborations.');
+   if(k==='contact')L.push('**You can reach Leonel at:**','- Email: '+EMAIL,'- Phone: +63 963 982 7645','- Or use the Contact page or "Leave a message" here.')});
+  return L.length?L.join('\n'):null};
  const chips=list=>{sugs.innerHTML=list.map(q=>`<button type="button" class="ai-sug">${esc(q)}</button>`).join('')+'<button type="button" class="ai-sug ai-leave">'+svg(IC.note)+'Leave a message</button>'};
  const follow=tp=>{const asked=new Set(hist.filter(m=>m.role==='user').map(m=>m.content.toLowerCase()));const pool=[];
   (tp.length?tp:['about']).forEach(k=>(FOLLOW[k]||[]).forEach(q=>{if(!asked.has(q.toLowerCase())&&!pool.includes(q))pool.push(q)}));
@@ -1789,7 +1801,9 @@ const WR=(()=>{if(matchMedia('(prefers-reduced-motion: reduce)').matches||!('Int
   hist.forEach(m=>{if(m.role==='user'){lastQ=m.content;stamp(add('me',esc(m.content)),'me',m.ts)}else{const d=add('bot',fmt(m.content));tp=decorate(d,m.content,lastQ);stamp(d,'bot',m.ts)}});
   if(hist.length)follow(tp)};
  try{const h=JSON.parse(sessionStorage.getItem(KEY)||'[]');if(Array.isArray(h))hist=h.filter(m=>m&&typeof m.content==='string'&&(m.role==='user'||m.role==='assistant'))}catch(_){}
- const open=()=>{pn.hidden=false;requestAnimationFrame(()=>pn.classList.add('open'));fab.classList.add('on');fab.setAttribute('aria-expanded','true');document.body.classList.add('ai-open');
+ let warmT=0;const warm=()=>{if(smp||location.protocol==='file:'||Date.now()-warmT<120000)return;warmT=Date.now();fetch('/api/chat?ping=1',{cache:'no-store'}).catch(()=>{})};
+ setTimeout(warm,4000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)warm()});
+ const open=()=>{warm();pn.hidden=false;requestAnimationFrame(()=>pn.classList.add('open'));fab.classList.add('on');fab.setAttribute('aria-expanded','true');document.body.classList.add('ai-open');
   if(!started){started=true;render()}scrollEnd();
   if(matchMedia('(hover:hover)').matches)setTimeout(()=>inp.focus(),250)};
  const close=()=>{if(pn.hidden)return;pn.classList.remove('open');fab.classList.remove('on');fab.setAttribute('aria-expanded','false');document.body.classList.remove('ai-open');setTimeout(()=>{if(!pn.classList.contains('open'))pn.hidden=true},300)};
@@ -1808,16 +1822,21 @@ const WR=(()=>{if(matchMedia('(prefers-reduced-motion: reduce)').matches||!('Int
  const ask=async()=>{
   if(smp){const input=[{role:'user',content:SYS+'\n\nYou will now chat with a visitor. Reply only with your answer to their latest message.'},{role:'assistant',content:'Understood.'},...hist.slice(-12).map(({role,content})=>({role,content}))];
    const r=await smp(input,{modelTier:'quick',cache:false});return r.text}
-  const go=async()=>{const r=await fetch('/api/chat',{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:hist.slice(-12).map(({role,content})=>({role,content}))})});let d={};try{d=await r.json()}catch(_){}return{r,d}};
-  let {r,d}=await go();
-  if(!r.ok&&r.status>=500){await new Promise(z=>setTimeout(z,1500));({r,d}=await go())}
+  const body=JSON.stringify({messages:hist.slice(-12).map(({role,content})=>({role,content}))});
+  const go=async()=>{const ac=new AbortController(),tm=setTimeout(()=>ac.abort(),45000);
+   try{const r=await fetch('/api/chat',{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json'},body,signal:ac.signal});let d={};try{d=await r.json()}catch(_){}return{r,d}}
+   catch(_){return{r:{ok:false,status:0},d:{}}}finally{clearTimeout(tm)}};
+  let r,d;for(let i=0;i<3;i++){({r,d}=await go());if(r.ok||(r.status&&r.status<500))break;if(i<2)await new Promise(z=>setTimeout(z,1500*(i+1)))}
+  if(!r.status)throw new Error('net');
   if(!r.ok||!d.reply){let own=false;try{own=localStorage.getItem('isOwner')==='1'}catch(_){}const er=new Error((d.error||'The assistant is unavailable right now.')+' (code '+r.status+')'+(own&&d.detail?' [Owner info: '+d.detail+']':''));er.soft=true;throw er}
   return d.reply};
  const submit=async q=>{q=(q||'').trim();if(!q||busy)return;busy=true;send.disabled=true;
   const now=Date.now();hist.push({role:'user',content:q,ts:now});stamp(add('me',esc(q)),'me',now);inp.value='';grow();sugs.innerHTML='';
   const t=add('bot','<span class="ai-typing" aria-label="Typing"><i></i><i></i><i></i></span>');
   try{const a=await ask(),at=Date.now();hist.push({role:'assistant',content:a,ts:at});save();t.innerHTML=fmt(a);follow(decorate(t,a,q));stamp(t,'bot',at)}
-  catch(e){hist.pop();save();stamp(t,'bot');t.classList.add('err');t.innerHTML=fmt((e&&e.soft?e.message:"Sorry, I can't connect right now. Please check your internet and try again."))+'<div class="ai-tools"><button type="button" class="ai-act ai-leave">'+svg(IC.note)+'Leave a message</button></div>';chips(START)}
+  catch(e){const la=localAnswer(q);
+   if(la){hist.push({role:'assistant',content:la,ts:Date.now()});save();t.innerHTML=fmt(la)+'<p class="ai-note">Quick answer from Leonel\'s portfolio while the AI assistant takes a short break.</p>';follow(decorate(t,la,q));stamp(t,'bot')}
+   else{hist.pop();save();stamp(t,'bot');t.classList.add('err');t.innerHTML=fmt((e&&e.soft?e.message:"Sorry, I can't connect right now. Please check your internet and try again."))+'<div class="ai-tools"><button type="button" class="ai-act ai-leave">'+svg(IC.note)+'Leave a message</button></div>';chips(START)}}
   busy=false;send.disabled=false;scrollEnd();if(matchMedia('(hover:hover)').matches)inp.focus()};
  /* leave a message (sent to Leonel's Gmail through FormSubmit) */
  const leave=()=>{if(log.querySelector('.ai-leave-form:not(.sent)')){log.querySelector('.ai-leave-form input').focus();return}
