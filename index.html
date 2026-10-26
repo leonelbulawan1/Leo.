@@ -1589,14 +1589,16 @@ const WR=(()=>{if(matchMedia('(prefers-reduced-motion: reduce)').matches||!('Int
  const ask=async q=>{
   if(smp){const input=[{role:'user',content:SYS+'\n\nYou will now chat with a visitor. Reply only with your answer to their latest message.'},{role:'assistant',content:'Understood.'},...hist.slice(-12)];
    const r=await smp(input,{modelTier:'quick',cache:false});return r.text}
-  const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:hist.slice(-12)})});
-  let d={};try{d=await r.json()}catch(_){}
-  if(!r.ok||!d.reply)throw new Error(d.error||'The assistant is unavailable right now.');return d.reply};
+  const go=async()=>{const r=await fetch('/api/chat',{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:hist.slice(-12)})});let d={};try{d=await r.json()}catch(_){}return{r,d}};
+  let {r,d}=await go();
+  if(!r.ok&&r.status>=500){await new Promise(z=>setTimeout(z,1500));({r,d}=await go())}
+  if(!r.ok||!d.reply){let own=false;try{own=localStorage.getItem('isOwner')==='1'}catch(_){}throw new Error((d.error||'The assistant is unavailable right now.')+' (code '+r.status+')'+(own&&d.detail?' [Owner info: '+d.detail+']':''))}
+  return d.reply};
  const submit=async q=>{q=(q||'').trim();if(!q||busy)return;busy=true;send.disabled=true;
   hist.push({role:'user',content:q});add('me',esc(q));inp.value='';grow();renderSugs();
   const t=add('bot','<span class="ai-typing" aria-label="Typing"><i></i><i></i><i></i></span>');
   try{const a=await ask(q);hist.push({role:'assistant',content:a});t.innerHTML=fmt(a)}
-  catch(e){hist.pop();t.classList.add('err');t.innerHTML=fmt((e&&e.message&&!/fetch|network|load/i.test(e.message)?e.message:'Sorry, I can\'t connect right now.')+' You can still reach Leonel at leonelbulawan485@gmail.com.')}
+  catch(e){hist.pop();t.classList.add('err');t.innerHTML=fmt((e&&e.message&&!/fetch|network|load/i.test(e.message)?e.message:'Sorry, I can\'t connect right now. ('+((e&&e.message)||'network')+')')+' You can still reach Leonel at leonelbulawan485@gmail.com.')}
   busy=false;send.disabled=false;log.scrollTop=log.scrollHeight;if(matchMedia('(hover:hover)').matches)inp.focus()};
  const grow=()=>{inp.style.height='auto';inp.style.height=Math.min(inp.scrollHeight,110)+'px'};
  inp.addEventListener('input',grow);
