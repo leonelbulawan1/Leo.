@@ -34,11 +34,13 @@
 /* Layout: DJoz rhythm — violet hero and bands alternate with light content sections in a 1140px column; hash-routed pages share nav + wave footer */
 :root{
   --violet:#5b0fd6; --violet-hi:#6d28f0; --night:#1a0b3d; --ink:#1d1630; --muted:#625b78;
-  --bg:#ffffff; --surface:#f5f2fc; --card:#ffffff; --line:#e6e0f2; --chip:#efe9fc;
+  --bg:#ffffff; --surface:#f5f2fc; --card:#ffffff; --line:#e6e0f2; --chip:#efe9fc; --ok-bg:#f0fdf4; --ok-line:#bbf7d0;
   --display:"Rajdhani","Arial Narrow",system-ui,sans-serif;
   --body:"Jost","Segoe UI",system-ui,sans-serif;
   --script:"Mr Dafoe","Brush Script MT",cursive;
 }
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d0820;--surface:#140d2c;--card:#191134;--ink:#ece8f7;--muted:#a39cbf;--line:#2a2148;--chip:#241a45;--violet-hi:#a78bfa;--violet:#6d3ae0;--night:#090514;--ok-bg:#0f2a1c;--ok-line:#1f5a3a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0d0820;--surface:#140d2c;--card:#191134;--ink:#ece8f7;--muted:#a39cbf;--line:#2a2148;--chip:#241a45;--violet-hi:#a78bfa;--violet:#6d3ae0;--night:#090514;--ok-bg:#0f2a1c;--ok-line:#1f5a3a;color-scheme:dark}
 
 *{box-sizing:border-box}
 [hidden]{display:none!important}
@@ -296,7 +298,7 @@ header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;backgroun
 /* FOOTER */
 .foot-wave{display:block;width:100%;height:110px;margin-top:40px;margin-bottom:-1px}
 .foot-wave .w1{fill:#6b4aa8;opacity:.6}.foot-wave .w2{fill:var(--night)}
-footer{background:var(--night);color:#fff;padding-block:40px 26px}
+footer{background:var(--night);color:#fff;padding-block:18px 26px}
 .foot{display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;align-items:center}
 @media (max-width:820px){.foot{grid-template-columns:1fr}}
 .foot > div{min-width:0}
@@ -324,7 +326,7 @@ footer{background:var(--night);color:#fff;padding-block:40px 26px}
 .qlinks h3{font-size:18px;margin-bottom:10px}
 .qlinks ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;font-size:14px}
 .qlinks a{text-decoration:none;opacity:.8}.qlinks a:hover{opacity:1;color:#c9b0ff}
-.copy{margin-top:34px;padding-top:18px;border-top:1px solid rgba(255,255,255,.1);text-align:center;font-size:12px;opacity:.6}
+.copy{margin-top:0;padding-top:0;border-top:0;text-align:center;font-size:12px;opacity:.6}
 
 /* lightbox + toast */
 .lb{position:fixed;inset:0;background:rgba(10,4,25,.86);z-index:80;display:grid;place-items:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
@@ -527,7 +529,7 @@ main{overflow-x:clip}
 .splash.handoff .sp-glow,.splash.handoff .sp-foot{transition:opacity .5s ease;opacity:0!important}
 .splash.handoff .sp-mark,.splash.handoff blockquote,.splash.handoff figcaption{transition:transform 1s cubic-bezier(.65,0,.25,1),opacity .45s ease .65s;will-change:transform}
 
-.cf-ok{grid-template-columns:auto 1fr;align-items:center;border-color:#bbf7d0;background:#f0fdf4;animation:okIn .5s cubic-bezier(.2,.8,.2,1)}
+.cf-ok{grid-template-columns:auto 1fr;align-items:center;border-color:var(--ok-line);background:var(--ok-bg);animation:okIn .5s cubic-bezier(.2,.8,.2,1)}
 .cf-ok svg{width:34px;height:34px;fill:none;stroke:#16a34a;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .cf-ok svg path{stroke-dasharray:20;stroke-dashoffset:20;animation:okDraw .5s ease .25s forwards}
 @keyframes okIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -539,7 +541,7 @@ main{overflow-x:clip}
 #contactForm.sent > *:not(#cfMsg){display:none!important}
 .cf-success{display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:start;padding:30px 32px;background:var(--card);border:1px solid var(--line);border-top:4px solid #16a34a;box-shadow:0 18px 44px rgba(40,10,100,.1);outline:none;animation:okIn .55s cubic-bezier(.2,.8,.2,1)}
 .cfs-icon svg{width:56px;height:56px;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
-.cfs-icon circle{stroke:#16a34a;fill:#f0fdf4;stroke-dasharray:151;stroke-dashoffset:151;animation:okDraw .6s ease .1s forwards}
+.cfs-icon circle{stroke:#16a34a;fill:var(--ok-bg);stroke-dasharray:151;stroke-dashoffset:151;animation:okDraw .6s ease .1s forwards}
 .cfs-icon path{stroke:#16a34a;stroke-dasharray:40;stroke-dashoffset:40;animation:okDraw .45s ease .55s forwards}
 .cfs-body h3{font-size:22px;margin:4px 0 8px;text-transform:none;letter-spacing:0}
 .cfs-body > p{margin:0 0 18px;color:var(--muted);font-size:15px;overflow-wrap:anywhere}
@@ -718,7 +720,7 @@ header.nav.hide{transform:translateY(calc(-100% - env(safe-area-inset-top,0px)))
 
 /* contact icons */
 .ci-row i{background:linear-gradient(135deg,var(--violet),#9a66ff);box-shadow:0 8px 18px rgba(91,15,214,.22)}
-.ci-row svg{stroke:#fff!important}
+.ci-row i svg{stroke:#fff!important}
 
 /* footer: soft glow line on top edge */
 footer{position:relative}
@@ -726,11 +728,82 @@ footer::before{content:"";position:absolute;left:10%;right:10%;top:0;height:1px;
 .circ a{transition:transform .25s,background .25s}
 .circ a:hover{transform:translateY(-3px)}
 
+/* dark mode toggle */
+body{background:var(--bg);color:var(--ink);transition:background-color .35s,color .35s}
+.theme-tog{width:36px;height:36px;border-radius:50%;border:0;background:transparent;display:grid;place-items:center;cursor:pointer;color:#fff;transition:background .2s,transform .4s cubic-bezier(.3,1.4,.5,1)}
+.theme-tog:hover{background:rgba(255,255,255,.14)}
+.theme-tog:active{transform:rotate(30deg) scale(.9)}
+.theme-tog svg{width:17px;height:17px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.theme-tog{position:relative;overflow:hidden}
+.theme-tog svg{grid-area:1/1;transition:transform .55s cubic-bezier(.3,1.5,.5,1),opacity .35s}
+.theme-tog .i-moon{fill:#fff;stroke:none}
+.theme-tog .i-sun{opacity:0;transform:rotate(-90deg) scale(.3)}
+:root[data-theme="dark"] .theme-tog .i-sun{opacity:1;transform:none}:root[data-theme="dark"] .theme-tog .i-moon{opacity:0;transform:rotate(90deg) scale(.3)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .theme-tog .i-sun{opacity:1;transform:none}:root:not([data-theme="light"]) .theme-tog .i-moon{opacity:0;transform:rotate(90deg) scale(.3)}}
+.theme-tog.pop::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.55),transparent 70%);animation:togPop .6s ease-out forwards}
+@keyframes togPop{from{transform:scale(.2);opacity:1}to{transform:scale(1.8);opacity:0}}
+/* circular reveal of the new theme (browsers with View Transitions) */
+::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+::view-transition-new(root){z-index:2}
+html.vt-swap,html.vt-swap *,html.vt-swap *::before,html.vt-swap *::after{transition:none!important}
+/* fallback: smooth colour cross-fade */
+html.theme-anim,html.theme-anim *,html.theme-anim *::before,html.theme-anim *::after{transition:background-color .5s ease,color .5s ease,border-color .5s ease,fill .5s ease,box-shadow .5s ease!important}
+@media (prefers-reduced-motion:reduce){.theme-tog svg{transition:none}.theme-tog.pop::after{animation:none}}
+.nav-soc{align-items:center}
+.tt-mobile{display:none}
+@media (max-width:860px){.nav .wrap > .tt-mobile{display:grid;width:42px;height:42px;margin-left:auto;margin-right:4px;order:8}.nav .wrap > .menu-btn{order:9}.nav .wrap > .logo{order:0}}
+/* dark mode fine-tuning */
+:root[data-theme="dark"] .facts,:root[data-theme="dark"] .cert,:root[data-theme="dark"] .xp-card{box-shadow:0 14px 36px rgba(0,0,0,.35)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .facts,:root:not([data-theme="light"]) .cert,:root:not([data-theme="light"]) .xp-card{box-shadow:0 14px 36px rgba(0,0,0,.35)}}
+
+/* dark mode: harmonised colours */
+:root[data-theme="dark"] .edu{background:linear-gradient(150deg,#3b1a8f,#22104f)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .edu{background:linear-gradient(150deg,#3b1a8f,#22104f)}}
+:root[data-theme="dark"] .edu .ghost{color:rgba(255,255,255,.06)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .edu .ghost{color:rgba(255,255,255,.06)}}
+:root[data-theme="dark"] .hero{background:radial-gradient(55% 70% at 78% 40%,rgba(124,77,255,.35),transparent 70%),radial-gradient(50% 60% at 10% 90%,rgba(76,29,180,.55),transparent 70%),linear-gradient(160deg,#1c0b52,#0d0820 80%)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hero{background:radial-gradient(55% 70% at 78% 40%,rgba(124,77,255,.35),transparent 70%),radial-gradient(50% 60% at 10% 90%,rgba(76,29,180,.55),transparent 70%),linear-gradient(160deg,#1c0b52,#0d0820 80%)}}
+:root[data-theme="dark"] .orb.o1{opacity:.35}D .orb.o2{opacity:.2}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .orb.o1{opacity:.35}D .orb.o2{opacity:.2}}
+:root[data-theme="dark"] .x-art .logo-box,:root[data-theme="dark"] .xp-card img,:root[data-theme="dark"] .school img{background:#efeaf9;border-color:transparent}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .x-art .logo-box,:root:not([data-theme="light"]) .xp-card img,:root:not([data-theme="light"]) .school img{background:#efeaf9;border-color:transparent}}
+:root[data-theme="dark"] .tool img{filter:drop-shadow(0 0 1px rgba(255,255,255,.25))}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tool img{filter:drop-shadow(0 0 1px rgba(255,255,255,.25))}}
+:root[data-theme="dark"] .cert .th img,:root[data-theme="dark"] .lb-img img{filter:brightness(.9)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .cert .th img,:root:not([data-theme="light"]) .lb-img img{filter:brightness(.9)}}
+:root[data-theme="dark"] .cert:hover .th img{filter:brightness(1)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .cert:hover .th img{filter:brightness(1)}}
+:root[data-theme="dark"] .facts{border-top-color:#7c4dff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .facts{border-top-color:#7c4dff}}
+:root[data-theme="dark"] .btn.light{background:#efeaf9;color:#3b1a8f;border-color:#efeaf9}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn.light{background:#efeaf9;color:#3b1a8f;border-color:#efeaf9}}
+:root[data-theme="dark"] .foot-wave .w1{fill:#3a2670;opacity:.7}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .foot-wave .w1{fill:#3a2670;opacity:.7}}
+:root[data-theme="dark"] footer::before{background:linear-gradient(90deg,transparent,rgba(167,139,250,.35),transparent)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) footer::before{background:linear-gradient(90deg,transparent,rgba(167,139,250,.35),transparent)}}
+:root[data-theme="dark"] .ghost{color:rgba(167,139,250,.08)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .ghost{color:rgba(167,139,250,.08)}}
+:root[data-theme="dark"] .crumbs a{color:var(--ink)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .crumbs a{color:var(--ink)}}
+:root[data-theme="dark"] #contactForm input,:root[data-theme="dark"] #contactForm textarea{background:var(--surface)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #contactForm input,:root:not([data-theme="light"]) #contactForm textarea{background:var(--surface)}}
+:root[data-theme="dark"] .filters button{background:var(--card)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .filters button{background:var(--card)}}
+:root[data-theme="dark"] ::selection{background:#6d3ae0;color:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) ::selection{background:#6d3ae0;color:#fff}}
+/* local time */
+#localTime{font-variant-numeric:tabular-nums;font-weight:600}
+.ci-row .tz{display:inline;margin-left:6px;font-size:12px;color:var(--muted)}
+.lt-state{display:inline-flex;align-items:center;gap:8px;margin-top:6px!important;font-size:13px!important}
+.lt-state::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--dotc,#22c55e)}
+@media (max-width:860px){.lt-state{justify-content:center}}
+
 </style>
 </head>
 <body>
 
 
+<script>(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.dataset.theme=t}catch(e){}})();</script>
 <script>(function(){var seen=false;try{seen=sessionStorage.getItem('splashSeen')==='1'}catch(e){}if(!seen)document.documentElement.classList.add('splashing')})();</script>
 <div class="splash" id="splash" role="presentation">
   <div class="sp-glow"></div>
@@ -744,6 +817,7 @@ footer::before{content:"";position:absolute;left:10%;right:10%;top:0;height:1px;
 <header class="nav">
   <div class="wrap">
     <a class="logo" href="#home">Leo<span>.</span></a>
+    <button class="theme-tog tt-mobile" type="button" aria-label="Switch to dark mode" title="Dark / light mode"><svg class="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"/></svg><svg class="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
     <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="drawer"><span></span><span></span><span></span></button>
     <ul id="menu"><span class="nav-ink" aria-hidden="true"></span>
       <li><a href="#home">Home</a></li>
@@ -752,7 +826,7 @@ footer::before{content:"";position:absolute;left:10%;right:10%;top:0;height:1px;
       <li><a href="#achievements">Achievements</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <div class="nav-soc"><a href="https://www.facebook.com/leonelbulawanofficialfacebookaccount" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook"><svg viewBox="0 0 24 24"><path d="M14 8V6.5c0-.7.3-1 1-1h2V2h-3c-3 0-4 2-4 4.3V8H7.5v3.5H10V22h4V11.5h2.7l.5-3.5z"/></svg></a><a href="https://www.instagram.com/leonelbulawan__/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm0 2a3 3 0 00-3 3v10a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3zm5 3.5a4.5 4.5 0 110 9 4.5 4.5 0 010-9zm0 2a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM17.3 5.5a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"/></svg></a><a href="https://github.com/leonelbulawan1" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-3.2 19.5c.5.1.7-.2.7-.5v-1.8c-2.8.6-3.4-1.2-3.4-1.2-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.4 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 015 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.8V21c0 .3.2.6.7.5A10 10 0 0012 2z"/></svg></a><a href="https://www.tiktok.com/@leonelbulawan_" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok"><svg viewBox="0 0 24 24"><path d="M16.6 2h-3.3v13.4a2.9 2.9 0 11-2.1-2.8V9.2a6.3 6.3 0 105.4 6.2V8.6a8 8 0 004.4 1.4V6.7a4.6 4.6 0 01-4.4-4.7z"/></svg></a></div>
+    <div class="nav-soc"><a href="https://www.facebook.com/leonelbulawanofficialfacebookaccount" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook"><svg viewBox="0 0 24 24"><path d="M14 8V6.5c0-.7.3-1 1-1h2V2h-3c-3 0-4 2-4 4.3V8H7.5v3.5H10V22h4V11.5h2.7l.5-3.5z"/></svg></a><a href="https://www.instagram.com/leonelbulawan__/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm0 2a3 3 0 00-3 3v10a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3zm5 3.5a4.5 4.5 0 110 9 4.5 4.5 0 010-9zm0 2a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM17.3 5.5a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"/></svg></a><a href="https://github.com/leonelbulawan1" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-3.2 19.5c.5.1.7-.2.7-.5v-1.8c-2.8.6-3.4-1.2-3.4-1.2-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.4 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 015 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.8V21c0 .3.2.6.7.5A10 10 0 0012 2z"/></svg></a><a href="https://www.tiktok.com/@leonelbulawan_" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok"><svg viewBox="0 0 24 24"><path d="M16.6 2h-3.3v13.4a2.9 2.9 0 11-2.1-2.8V9.2a6.3 6.3 0 105.4 6.2V8.6a8 8 0 004.4 1.4V6.7a4.6 4.6 0 01-4.4-4.7z"/></svg></a><button class="theme-tog" type="button" aria-label="Switch to dark mode" title="Dark / light mode"><svg class="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 019.5 4a8 8 0 1010.5 10.5z"/></svg><svg class="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button></div>
   </div>
 </header>
 <div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
@@ -900,6 +974,7 @@ footer::before{content:"";position:absolute;left:10%;right:10%;top:0;height:1px;
         <div class="ci-row"><i><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="M3 6l9 7 9-7"/></svg></i><div><h3>Email</h3><p class="ci-val">leonelbulawan485@gmail.com</p><div class="ci-acts"><a class="ci-act" href="mailto:leonelbulawan485@gmail.com"><svg viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-2-6z"/></svg>Email me</a><button class="ci-act" data-copy="leonelbulawan485@gmail.com"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="1.5"/><path d="M5 15V5a1 1 0 011-1h10"/></svg>Copy</button></div></div></div>
         <div class="ci-row"><i><svg viewBox="0 0 24 24"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 006 6L16 13l5 2v4a2 2 0 01-2 2A16 16 0 013 5a2 2 0 012-2z"/></svg></i><div><h3>Phone</h3><p class="ci-val">0963 982 7645</p><div class="ci-acts"><a class="ci-act" href="tel:+639639827645"><svg viewBox="0 0 24 24"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 006 6L16 13l5 2v4a2 2 0 01-2 2A16 16 0 013 5a2 2 0 012-2z"/></svg>Call</a><a class="ci-act" href="sms:+639639827645"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg>Text</a><button class="ci-act" data-copy="0963 982 7645"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="1.5"/><path d="M5 15V5a1 1 0 011-1h10"/></svg>Copy</button></div></div></div>
         <div class="ci-row"><i><svg viewBox="0 0 24 24"><path d="M12 22s-7-7.5-7-13a7 7 0 0114 0c0 5.5-7 13-7 13z"/><circle cx="12" cy="9" r="2.5"/></svg></i><div><h3>Location</h3><p>T. De Castro St., Zone 8<br>Bulan, Sorsogon, Philippines<br><a href="https://www.google.com/maps/search/?api=1&amp;query=T.+De+Castro+St.+Zone+8%2C+Bulan%2C+Sorsogon%2C+Philippines" target="_blank" rel="noopener" style="color:var(--violet-hi)">Open in Google Maps →</a></p></div></div>
+        <div class="ci-row"><i><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></i><div><h3>Local time</h3><p class="ci-val"><span id="localTime">--:--</span> <small class="tz">PHT · UTC+8</small></p><p id="localState" class="lt-state"></p></div></div>
       </div>
       <div>
         <h2>Get in touch</h2>
@@ -921,15 +996,6 @@ footer::before{content:"";position:absolute;left:10%;right:10%;top:0;height:1px;
 <svg class="foot-wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"><path class="w1" d="M0 120V40c360-50 720 80 1080 40s300-40 360-30v70z"/><path class="w2" d="M0 120V70c360-40 720 60 1080 20s300-30 360-20v50z"/></svg>
 <footer>
   <div class="wrap">
-    <div class="foot">
-      <div>
-        <div class="f-row"><i><svg viewBox="0 0 24 24"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 006 6L16 13l5 2v4a2 2 0 01-2 2A16 16 0 013 5a2 2 0 012-2z"/></svg></i><div><small>Phone</small><button data-copy="0963 982 7645">0963 982 7645</button></div></div>
-        <div class="f-row"><i><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="M3 6l9 7 9-7"/></svg></i><div><small>Email</small><button data-copy="leonelbulawan485@gmail.com">leonelbulawan485@gmail.com</button></div></div>
-      </div>
-      <div class="mid"><a class="logo" href="#home">Leo<span>.</span></a>
-        <div class="circ"><a href="https://www.facebook.com/leonelbulawanofficialfacebookaccount" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook"><svg viewBox="0 0 24 24"><path d="M14 8V6.5c0-.7.3-1 1-1h2V2h-3c-3 0-4 2-4 4.3V8H7.5v3.5H10V22h4V11.5h2.7l.5-3.5z"/></svg></a><a href="https://www.instagram.com/leonelbulawan__/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><svg viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7 2h10a5 5 0 015 5v10a5 5 0 01-5 5H7a5 5 0 01-5-5V7a5 5 0 015-5zm0 2a3 3 0 00-3 3v10a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3zm5 3.5a4.5 4.5 0 110 9 4.5 4.5 0 010-9zm0 2a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM17.3 5.5a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"/></svg></a><a href="https://github.com/leonelbulawan1" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-3.2 19.5c.5.1.7-.2.7-.5v-1.8c-2.8.6-3.4-1.2-3.4-1.2-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.4 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 015 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.8V21c0 .3.2.6.7.5A10 10 0 0012 2z"/></svg></a><a href="https://www.tiktok.com/@leonelbulawan_" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok"><svg viewBox="0 0 24 24"><path d="M16.6 2h-3.3v13.4a2.9 2.9 0 11-2.1-2.8V9.2a6.3 6.3 0 105.4 6.2V8.6a8 8 0 004.4 1.4V6.7a4.6 4.6 0 01-4.4-4.7z"/></svg></a></div></div>
-      <div class="qlinks"><h3>Quick links</h3><ul><li><a href="#home">Home</a></li><li><a href="#about">About</a></li><li><a href="#experience">Experience</a></li><li><a href="#achievements">Achievements</a></li><li><a href="#contact">Contact</a></li></ul></div>
-    </div>
     <div class="copy">© 2026 Leonel Bulawan. All rights reserved.</div>
   </div>
 </footer>
@@ -1217,6 +1283,31 @@ const WR=(()=>{if(matchMedia('(prefers-reduced-motion: reduce)').matches||!('Int
  addEventListener('scroll',()=>{if(!tick){tick=true;requestAnimationFrame(upd)}},{passive:true});
  addEventListener('hashchange',()=>{hd.classList.remove('hide');lastY=0});
  hd.addEventListener('focusin',()=>hd.classList.remove('hide'));upd()})();
+
+/* dark mode: follows the device until the visitor picks; choice is remembered */
+(()=>{const root=document.documentElement;let saved=null;try{saved=localStorage.getItem('theme')}catch(e){}
+ if(saved==='dark'||saved==='light')root.dataset.theme=saved;
+ const mq=matchMedia('(prefers-color-scheme: dark)');
+ const isDark=()=>root.dataset.theme?root.dataset.theme==='dark':mq.matches;
+ const label=()=>document.querySelectorAll('.theme-tog').forEach(b=>b.setAttribute('aria-label',isDark()?'Switch to light mode':'Switch to dark mode'));
+ document.addEventListener('click',e=>{const btn=e.target.closest('.theme-tog');if(!btn)return;const next=isDark()?'light':'dark';
+  const apply=()=>{root.dataset.theme=next;try{localStorage.setItem('theme',next)}catch(err){}label()};
+  document.querySelectorAll('.theme-tog').forEach(b=>{b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop')});
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){apply();return}
+  const r=btn.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2,rad=Math.hypot(Math.max(x,innerWidth-x),Math.max(y,innerHeight-y));
+  if(document.startViewTransition){
+   root.classList.add('vt-swap');const t=document.startViewTransition(apply);t.finished.finally(()=>root.classList.remove('vt-swap'));
+   t.ready.then(()=>document.documentElement.animate({clipPath:[`circle(0px at ${x}px ${y}px)`,`circle(${rad}px at ${x}px ${y}px)`]},{duration:650,easing:'cubic-bezier(.4,0,.2,1)',pseudoElement:'::view-transition-new(root)'})).catch(()=>{});
+  }else{root.classList.add('theme-anim');apply();setTimeout(()=>root.classList.remove('theme-anim'),600)}});
+ mq.addEventListener&&mq.addEventListener('change',label);label()})();
+
+/* live local time in Bulan (Asia/Manila) */
+(()=>{const t=$('#localTime'),st=$('#localState');if(!t)return;
+ const fmt=new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Manila',hour:'numeric',minute:'2-digit',hour12:true});
+ const hr=new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Manila',hour:'numeric',hour12:false});
+ const tick=()=>{const now=new Date();t.textContent=fmt.format(now);const h=parseInt(hr.format(now),10)%24;
+  const awake=h>=7&&h<22;st.textContent=awake?'Usually available now':'Probably asleep, will reply in the morning';st.style.setProperty('--dotc',awake?'#22c55e':'#f59e0b')};
+ tick();setInterval(tick,15000)})();
 
 /* menu + router */
 /* mobile drawer */
